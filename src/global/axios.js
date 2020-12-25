@@ -1,14 +1,19 @@
 import axios from 'axios';
 
-const API_KEY = 'b3c2b92a59ec4effa3129341bfffb612';
-const BASE_URL = 'https://api.spoonacular.com/recipes/';
-const FINAL_BASE_URL = `${BASE_URL}/complexSearch?apiKey=${API_KEY}&query=pasta`;
-const BACKEND_LOC = '';
+// Base configs
+const API_KEY = `${process.env.VUE_APP_FRONT_API_KEY}`;
+const BASE_URL = `${process.env.VUE_APP_FRONT_BASE_URL}`;
 
+// Front Back Locations
+const FINAL_BASE_URL = `${BASE_URL}/complexSearch?apiKey=${API_KEY}&query=pasta`;
+const BACKEND_LOC = 'http://localhost:80/FoodHeaven/Back/api/index.php';
+
+
+// Export axios base urls (Can be rewritten)
 export const FoodApi = axios.create({
     baseURL : FINAL_BASE_URL,
 });
 
 export const Backend = axios.create({
-    baseURL: "http://localhost:80/FoodHeaven/Back/api/index.php"
+    baseURL: BACKEND_LOC
 });

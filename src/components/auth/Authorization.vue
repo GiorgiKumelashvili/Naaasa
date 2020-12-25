@@ -132,26 +132,25 @@
     </div>
 </template>
 
-<script>
-
-/**
- *  {
+<!--
+    {
         "type": "register",
         "data": {
             "username": "luka",
             "email": "luka@exam.com",
             "password": "luk32"
         }
-    }
- *
- *  {
+    },
+    {
         "type": "login",
         "data": {
             "email": "luka@exam.com",
             "password": "luk32"
         }
     }
- */
+-->
+
+<script>
     export default {
         data: () => ({
             valid: true,
