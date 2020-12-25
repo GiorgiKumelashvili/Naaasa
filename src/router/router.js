@@ -1,11 +1,11 @@
 import Vue          from 'vue';
 import VueRouter    from 'vue-router';
-import Home         from '../views/Home.vue';
-import _404         from "../views/_404.vue";
-import Auth         from '../views/Auth.vue';
+import Home         from '../views/main/Home';
+import _404         from "../views/errors/_404";
+import Auth         from '../views/Auth';
 
 // Lazy Loading
-const About = () => import(/* webpackChunkName: "about" */ '../views/About.vue');
+const About = () => import(/* webpackChunkName: "about" */ '../views/main/About');
 
 Vue.use(VueRouter);
 

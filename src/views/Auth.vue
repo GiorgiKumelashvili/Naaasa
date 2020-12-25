@@ -11,7 +11,7 @@
      * [ login, register ]
      */
     import Authorization from '../components/auth/Authorization';
-    import _404 from './_404';
+    import _404 from './errors/_404';
 
     export default {
         components: {

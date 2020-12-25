@@ -23,10 +23,10 @@
 </template>
 
 <script>
-import BasicFood    from '../components/food/BasicFood.vue'
-import { FoodApi, Backend }  from '../global/axios';
-import Vue          from 'vue';
-import Axios        from 'axios';
+import BasicFood            from '@/components/food/BasicFood.vue'
+import { FoodApi, Backend } from '@/global/axios';
+import Vue                  from 'vue';
+import Axios                from 'axios';
 
 export default {
     name: 'Home',
