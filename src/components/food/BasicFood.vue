@@ -1,11 +1,11 @@
 <template>
-<div class="d-flex">
-    <v-card class="mx-auto my-12" max-width="374">
-        <v-img height="250" :src="Data.image"/>
+    <div class="d-flex">
+        <v-card class="mx-auto my-12" max-width="374">
+            <v-img height="250" :src="Data.image" />
 
-        <v-card-title>{{Data.title}}</v-card-title>
+            <v-card-title>{{ Data.title }}</v-card-title>
 
-        <!-- <v-card-text>
+            <!-- <v-card-text>
             <v-row
                 align="center"
                 class="mx-0"
@@ -30,16 +30,16 @@
 
             <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>
         </v-card-text> -->
-    </v-card>
+        </v-card>
     </div>
 </template>
 
 <script>
-    export default {
-        props: ['Data'],
+export default {
+    props: ["Data"],
 
-        data: () => ({
-            selection: 1,
-        })
-    }
+    data: () => ({
+        selection: 1,
+    }),
+};
 </script>

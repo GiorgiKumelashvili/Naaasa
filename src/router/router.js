@@ -1,8 +1,8 @@
-import Vue          from 'vue';
-import VueRouter    from 'vue-router';
-import Home         from '../views/main/Home';
-import _404         from "../views/errors/_404";
-import Auth         from '../views/Auth';
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Home from '../views/main/Home';
+import _404 from "../views/errors/_404";
+import Auth from '../views/Auth';
 
 // Lazy Loading
 const About = () => import(/* webpackChunkName: "about" */ '../views/main/About');

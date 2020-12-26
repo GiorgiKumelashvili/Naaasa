@@ -1,5 +1,5 @@
 <template>
-    <div :class="{'mx-5': isMobile}">
+    <div :class="{ 'mx-5': isMobile }">
         <v-card
             :loading="loading"
             class="mx-auto my-12 d-flex flex-column xxxxx mx-4"
@@ -8,7 +8,6 @@
             rounded="lg"
             shaped
         >
-
             <!-- Progress line -->
             <template slot="progress">
                 <v-progress-linear
@@ -25,31 +24,25 @@
             />
 
             <!-- Form Inputs -->
-            <v-form
-                ref="form"
-                class="pa-6"
-                v-model="valid"
-                lazy-validation
-            >
-
+            <v-form ref="form" class="pa-6" v-model="valid" lazy-validation>
                 <v-text-field
                     v-if="$route.params.authname === 'register'"
                     v-model="userCredentials.username"
-                    :rules="usernameRules"
+                    :rules="InputRules.usernameRules"
                     label="Username"
                     required
                 />
 
                 <v-text-field
                     v-model="userCredentials.email"
-                    :rules="emailRules"
+                    :rules="InputRules.emailRules"
                     label="Email"
                     required
                 />
 
                 <v-text-field
                     v-model="userCredentials.password"
-                    :rules="passwordRules"
+                    :rules="InputRules.passwordRules"
                     :type="showPswd ? 'text' : 'password'"
                     :append-icon="showPswd ? 'mdi-eye' : 'mdi-eye-off'"
                     label="Password"
@@ -57,13 +50,17 @@
                     @click:append="showPswd = !showPswd"
                 />
 
-                <v-container v-if="$route.params.authname === 'login'" fluid class="py-0">
+                <v-container
+                    v-if="$route.params.authname === 'login'"
+                    fluid
+                    class="py-0"
+                >
                     <v-row>
                         <v-col
                             cols="12"
                             sm="6"
                             class="pa-0 d-flex"
-                            :class="{'justify-center': isMobile}"
+                            :class="{ 'justify-center': isMobile }"
                         >
                             <v-checkbox
                                 v-model="userCredentials.rememberMe"
@@ -74,7 +71,7 @@
                             cols="12"
                             sm="6"
                             class="d-flex justify-end pa-0 blue--text text--accent-2 pointer"
-                            :class="{'justify-center': isMobile}"
+                            :class="{ 'justify-center': isMobile }"
                             align-self="center"
                             v-text="'Forgot password ?'"
                         />
@@ -96,13 +93,18 @@
             <!-- Side text -->
             <v-card-text class="d-flex flex-column mt-4">
                 <div class="subtitle-1 align-self-center">
-                    Or {{$route.params.authname}} with
+                    Or {{ $route.params.authname }} with
                 </div>
             </v-card-text>
 
             <!-- 3rd party services -->
             <v-card-text class="d-flex justify-center pt-1">
-                <v-btn class="mx-2 align-self-center" color="indigo darken-3" fab small>
+                <v-btn
+                    class="mx-2 align-self-center"
+                    color="indigo darken-3"
+                    fab
+                    small
+                >
                     <v-icon class="white--text headline">mdi-facebook</v-icon>
                 </v-btn>
 
@@ -117,14 +119,20 @@
 
             <v-card-text class="d-flex flex-column pt-0">
                 <div class="subtitle-1 align-self-center">
-                    {{routeName === 'Login' ? 'Need': 'Already have'}} an account ?
+                    {{ routeName === "Login" ? "Need" : "Already have" }} an
+                    account ?
                     <router-link
                         :to="{
-                            name    : 'auth',
-                            params  : { authname: (routeName === 'Login') ? 'register': 'login'}
+                            name: 'auth',
+                            params: {
+                                authname:
+                                    routeName === 'Login'
+                                        ? 'register'
+                                        : 'login',
+                            },
                         }"
                         class="text-decoration-none blue--text text--accent-2 pointer"
-                        v-text="routeName === 'Login' ? 'Sign up': 'Log in'"
+                        v-text="routeName === 'Login' ? 'Sign up' : 'Log in'"
                     />
                 </div>
             </v-card-text>
@@ -132,7 +140,114 @@
     </div>
 </template>
 
-<!--
+<script>
+import Axios from "axios";
+
+export default {
+    data: () => ({
+        valid: true,
+        showPswd: false,
+        loading: false,
+        rememberMe: false,
+
+        userCredentials: {
+            username: "",
+            email: "",
+            password: "",
+        },
+
+        InputRules: {
+            usernameRules: [
+                (v) => !!v || "Username is required",
+                (v) =>
+                    (v && v.length >= 5 && v.length <= 30) ||
+                    "Username must be between 5 and 25 characters",
+                (v) => /^[a-zA-Z0-9]+$/.test(v) || "Username must be valid",
+            ],
+
+            emailRules: [
+                (v) => !!v || "Email is required",
+                (v) =>
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+                        v
+                    ) || "Email must be valid",
+            ],
+
+            passwordRules: [
+                (v) => !!v || "Password is required",
+                (v) => v.length >= 8 || "Min 8 characters",
+                (v) => v.length <= 30 || "Max 30 characters",
+                (v) =>
+                    /.*[0-9]/.test(v) ||
+                    "Password must contain at least 1 numeric character",
+            ],
+        },
+    }),
+
+    methods: {
+        validate: async function () {
+            // let validated = this.$refs.form.validate();
+            // let FinalUserCredentials = JSON.parse(JSON.stringify(this.userCredentials));
+
+            // if (this.routeName === 'Login') {
+            //     FinalUserCredentials = {
+            //         email       : this.userCredentials.email,
+            //         password    : this.userCredentials.password
+            //     }
+            // }
+
+            // console.log(FinalUserCredentials);
+            //TODO Header cors policy ! crete clss for it
+            let d = await Axios.get("http://localhost/Heven/api/");
+            console.log(d);
+
+            return;
+
+            if (!validated) {
+                console.log("Error :( ");
+                return;
+            }
+
+            let data = await this.checkOnServer();
+            console.log(data);
+
+            if (data.response) {
+                this.$store.state.authorized = true;
+                console.log(this.$store.state.authorized);
+                this.$router.push({ name: "dashboard" });
+            }
+        },
+        // [End] validate
+
+        checkOnServer: function () {
+            this.loading = true;
+
+            return new Promise((res) => {
+                setTimeout(() => {
+                    this.loading = false;
+                    res({ response: true });
+                }, 2000);
+            });
+        },
+        // [End] checkOnServer
+    },
+
+    computed: {
+        routeName() {
+            let name = this.$route.params.authname;
+            return name.replace(/^./, name[0].toUpperCase());
+        },
+
+        isMobile() {
+            return this.$vuetify.breakpoint.smAndDown;
+        },
+    },
+};
+</script>
+
+
+
+<!-- how to authorize on back
     {
         "type": "register",
         "data": {
@@ -149,81 +264,3 @@
         }
     }
 -->
-
-<script>
-    export default {
-        data: () => ({
-            valid: true,
-            showPswd: false,
-            loading: false,
-            rememberMe: false,
-
-            userCredentials : {
-                username: '',
-                email: '',
-                password: '',
-            },
-
-            usernameRules: [
-                v => !!v || 'Username is required',
-                v => (v && v.length >= 5 && v.length <= 30) || 'Username must be between 5 and 25 characters',
-                v => /^[a-zA-Z0-9]+$/.test(v) ||'Username must be valid',
-            ],
-
-            emailRules: [
-                v => !!v || 'Email is required',
-                v => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || 'Email must be valid',
-            ],
-
-            passwordRules: [
-                v => !!v || 'Password is required',
-                v => v.length >= 8 || 'Min 8 characters',
-                v => v.length <= 30 || 'Max 30 characters',
-                v => /.*[0-9]/.test(v) ||'Password must contain at least 1 numeric character',
-            ]
-        }),
-
-        methods: {
-            validate: async function() {
-                let bool = this.$refs.form.validate();
-
-                if (bool) {
-                    let data = await this.checkOnServer();
-                    console.log(data);
-                    if (data.response) {
-                        this.$store.state.authorized = true;
-                        console.log(this.$store.state.authorized);
-                        this.$router.push({name: 'dashboard'});
-                    }
-                }
-                else {
-                    console.log('Error :( ');
-                }
-            },
-            // [End] validate
-
-            checkOnServer: function() {
-                this.loading = true;
-
-                return new Promise(res => {
-                    setTimeout(() => {
-                        this.loading = false;
-                        res({response: true});
-                    }, 2000);
-                });
-            }
-            // [End] checkOnServer
-        },
-
-        computed: {
-            routeName() {
-                let name = this.$route.params.authname;
-                return name.replace(/^./, name[0].toUpperCase());
-            },
-
-            isMobile() {
-                return this.$vuetify.breakpoint.smAndDown;
-            }
-        }
-    }
-</script>

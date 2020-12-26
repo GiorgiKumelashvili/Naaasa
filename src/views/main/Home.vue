@@ -9,7 +9,13 @@
         <v-btn @click="ggg">req</v-btn>
 
         <v-btn>
-            <router-link :to="{ name: 'about', params: { id:123 }, query:{x: 'haha'}}">
+            <router-link
+                :to="{
+                    name: 'about',
+                    params: { id: 123 },
+                    query: { x: 'haha' },
+                }"
+            >
                 go to about /123
             </router-link>
         </v-btn>
@@ -23,31 +29,31 @@
 </template>
 
 <script>
-import BasicFood            from '@/components/food/BasicFood.vue'
-import { FoodApi, Backend } from '@/global/axios';
-import Vue                  from 'vue';
-import Axios                from 'axios';
+import BasicFood from "@/components/food/BasicFood.vue";
+import { FoodApi, Backend } from "@/global/axios";
+import Vue from "vue";
+import Axios from "axios";
 
 export default {
-    name: 'Home',
+    name: "Home",
     components: {
         BasicFood,
     },
 
-    data:()=>({
+    data: () => ({
         data: null,
     }),
 
     methods: {
-        getData: async function() {
+        getData: async function () {
             let req = await FoodApi.get();
             Vue.set(this, "data", req.data.results);
         },
         async ggg() {
             let req = await Backend.get();
             console.log(req);
-            console.log('hi');
-        }
-    }
-}
+            console.log("hi");
+        },
+    },
+};
 </script>
