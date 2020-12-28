@@ -142,6 +142,8 @@
 
 <script>
 import Axios from "axios";
+import Vue from "vue";
+import Back from "../../global/Back";
 
 export default {
     data: () => ({
@@ -182,54 +184,64 @@ export default {
                     "Password must contain at least 1 numeric character",
             ],
         },
+
+        response: null,
     }),
 
     methods: {
         validate: async function () {
-            // let validated = this.$refs.form.validate();
-            // let FinalUserCredentials = JSON.parse(JSON.stringify(this.userCredentials));
-
-            // if (this.routeName === 'Login') {
-            //     FinalUserCredentials = {
-            //         email       : this.userCredentials.email,
-            //         password    : this.userCredentials.password
-            //     }
-            // }
-
-            // console.log(FinalUserCredentials);
-            //TODO Header cors policy ! crete clss for it
-            let d = await Axios.get("http://localhost/Heven/api/");
-            console.log(d);
-
-            return;
-
-            if (!validated) {
+            // First validate form
+            if (!this.$refs.form.validate()) {
                 console.log("Error :( ");
                 return;
             }
 
-            let data = await this.checkOnServer();
-            console.log(data);
+            this.loading = true;
+            let FinalUserCredentials = JSON.parse(JSON.stringify(this.userCredentials));
 
-            if (data.response) {
+            // Remove username for login
+            if (this.routeName === "Login") {
+                delete FinalUserCredentials.username;
+            }
+
+            // Get response from server
+            let response = await Back.Auth("auth", {
+                type: this.routeName.toLowerCase(),
+                data: FinalUserCredentials,
+            });
+
+            // Set response
+            Vue.set(this, "response", response);
+
+            // Check if authorization was success
+            if (response.statuscode === 1) {
+                // Authorize
                 this.$store.state.authorized = true;
-                console.log(this.$store.state.authorized);
+
+                // Set cookie
+                this.setCookies(response);
+
+                // redirection
                 this.$router.push({ name: "dashboard" });
             }
+            else {
+                alert("no authorization");
+            }
+
+            // Remove loading
+            this.loading = false;
+
+            console.log(this.response);
         },
         // [End] validate
 
-        checkOnServer: function () {
-            this.loading = true;
+        setCookies: function (response) {
+            let { identifier, accessToken, refreshToken } = response.data;
 
-            return new Promise((res) => {
-                setTimeout(() => {
-                    this.loading = false;
-                    res({ response: true });
-                }, 2000);
-            });
+            this.$cookies.set("_identifier", identifier)
+            this.$cookies.set("_accessToken", accessToken);
+            this.$cookies.set("_refreshToken", refreshToken);
         },
-        // [End] checkOnServer
     },
 
     computed: {
