@@ -53,36 +53,15 @@
                 <v-container
                     v-if="$route.params.authname === 'login'"
                     fluid
-                    class="py-0"
-                >
-                    <v-row>
-                        <v-col
-                            cols="12"
-                            sm="6"
-                            class="pa-0 d-flex"
-                            :class="{ 'justify-center': isMobile }"
-                        >
-                            <v-checkbox
-                                v-model="userCredentials.rememberMe"
-                                label="Remember me"
-                            />
-                        </v-col>
-                        <v-col
-                            cols="12"
-                            sm="6"
-                            class="d-flex justify-end pa-0 blue--text text--accent-2 pointer"
-                            :class="{ 'justify-center': isMobile }"
-                            align-self="center"
-                            v-text="'Forgot password ?'"
-                        />
-                    </v-row>
-                </v-container>
+                    class="pa-0 d-flex justify-end blue--text text--accent-2 pointer"
+                    v-text="'Forgot password ?'"
+                />
             </v-form>
 
             <!-- Button -->
             <v-btn
                 :disabled="!valid"
-                @click="validate()"
+                @click="Authorize()"
                 v-text="routeName"
                 color="purple white--text"
                 class="mx-6"
@@ -150,7 +129,6 @@ export default {
         valid: true,
         showPswd: false,
         loading: false,
-        rememberMe: false,
 
         userCredentials: {
             username: "",
@@ -188,16 +166,25 @@ export default {
         response: null,
     }),
 
+    created() {
+        if (this.$store.state.authorized) {
+            this.$router.push({ name: "404" });
+        }
+    },
+
     methods: {
-        validate: async function () {
+        Authorize: async function () {
             // First validate form
             if (!this.$refs.form.validate()) {
                 console.log("Error :( ");
                 return;
             }
 
+            // Start loading
             this.loading = true;
-            let FinalUserCredentials = JSON.parse(JSON.stringify(this.userCredentials));
+
+            // Copy user credentials
+            let FinalUserCredentials = Object.assign({}, this.userCredentials);
 
             // Remove username for login
             if (this.routeName === "Login") {
@@ -224,24 +211,21 @@ export default {
                 // redirection
                 this.$router.push({ name: "dashboard" });
             }
-            else {
-                alert("no authorization");
-            }
 
             // Remove loading
             this.loading = false;
-
             console.log(this.response);
         },
-        // [End] validate
+        // [End] Authorize
 
         setCookies: function (response) {
             let { identifier, accessToken, refreshToken } = response.data;
 
-            this.$cookies.set("_identifier", identifier)
+            this.$cookies.set("_identifier", identifier);
             this.$cookies.set("_accessToken", accessToken);
             this.$cookies.set("_refreshToken", refreshToken);
         },
+        // [End] setCookies
     },
 
     computed: {

@@ -31,10 +31,6 @@ new Vue({
  */
 
 /*TODO
-1) back.js shi generatetoken mzadaa
-backze gasaketebelia validate yovel apize da winaagmdeg shemtxvevashi generate token da
-mere rember me aris gasaketebeli tokenis shemowmebaze da mteli ambebi!!!!!
-
     ** Icons: https://materialdesignicons.com/cdn/2.0.46/
     ** Dashboard: [
         https://vuse-dark-preview.hexesis.com/dashboard/operational (Better)
@@ -42,19 +38,27 @@ mere rember me aris gasaketebeli tokenis shemowmebaze da mteli ambebi!!!!!
     ]
 
     //! Need completion
-    !!!) Authorization
-    !!!) JWT front
-    !!!) JWT server
 
-    !) Axios stuff get it to .env
+
     !) need to add avatar logo and some other stuff
+    !) Remove cookie on logout
     !) Forgot Password
     !) When form is filled on register and before pushing
-       register you go to login email and password is still on
+    register you go to login email and password is still on
+    probably better to let it be
 
 
     //? Successful ones
-    +) CORS policy
+    +) Authorization
+    +) Rember me in background
+    +) logout
+    +) Add message for no login
+    +) Axios stuff get it to .env
+    +) Safe api call + Bearer access token
+    +) Remove cookie on refresh expiration
+    +) Create configs
+    +) JWT front (refresh,access token + expiration)
+    +) JWT server (access expiration)
     +) Block unauthorized
     +) Views + Router
     +) Navbar

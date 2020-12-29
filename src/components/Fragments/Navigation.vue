@@ -23,6 +23,7 @@
 
             <!-- Main Sidebar Links -->
             <v-list dense>
+                <!-- Routes (Links) -->
                 <template v-for="item in items">
                     <router-link
                         tag="div"
@@ -73,6 +74,50 @@
                         </router-link>
                     </v-list-group>
                 </template>
+
+                <!-- Logout (not a link) -->
+                <v-dialog
+                    v-model="logoutModelToggle"
+                    persistent
+                    max-width="420"
+                >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-list-item class="px-4" key="'logout-key'" link>
+                            <v-list-item-icon>
+                                <v-icon v-text="'mdi-export'" />
+                            </v-list-item-icon>
+
+                            <v-list-item-title
+                                v-text="'Logout'"
+                                color="primary"
+                                dark
+                                v-bind="attrs"
+                                v-on="on"
+                            />
+                        </v-list-item>
+                    </template>
+                    <v-card>
+                        <v-card-title
+                            class="headline"
+                            v-text="'Are you sure you want to log out !'"
+                        />
+                        <v-card-actions>
+                            <v-spacer />
+                            <v-btn
+                                text
+                                color="red darken-1"
+                                @click="logoutModelToggle = false"
+                                v-text="'Disagree'"
+                            />
+                            <v-btn
+                                text
+                                color="green darken-1"
+                                @click="logout"
+                                v-text="'Agree'"
+                            />
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
             </v-list>
         </v-navigation-drawer>
 
@@ -157,6 +202,7 @@
 
 <script>
 import Vue from "vue";
+import Back from "../../global/Back";
 
 export default {
     data: () => ({
@@ -171,6 +217,7 @@ export default {
 
         // Sidebar section
         NAME: "Giorga K",
+        logoutModelToggle: false,
         drawer: true,
         mini: false,
         activeSize: null,
@@ -233,7 +280,7 @@ export default {
             { title: "About", icon: "mdi-help-box", path: { name: "about" } },
             // { title: "About",       icon: "mdi-help-box",               path: "/about" },
 
-            { title: "Logout", icon: "mdi-export", path: "/logout" },
+            // { title: "Logout", icon: "mdi-export", path: "" },
         ],
     }),
 
@@ -244,6 +291,12 @@ export default {
             // Original toggling between dark mode
             this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
         },
+
+        logout: function () {
+            Back.removeCookies();
+            this.$store.state.authorized = false;
+            this.$router.push({ name: "auth", params: { authname: "login" } });
+        }
     },
 
     computed: {

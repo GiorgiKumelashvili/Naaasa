@@ -10,12 +10,26 @@
             v-text="'Page doesn\'t exist or is unavailable'"
             class="text-h6"
         />
-        <v-btn
-            class="purple white--text my-4"
-            @click="$router.push({ name: 'auth', params: { authname: 'login' } })"
-        >
+        <v-btn class="purple white--text my-4" @click="goBack">
             <v-icon class="pr-2">mdi-backspace-outline</v-icon>
             Go Back
         </v-btn>
     </v-card>
 </template>
+
+<script>
+export default {
+    methods: {
+        goBack: function () {
+            if (this.$store.state.authorized) {
+                this.$router.push({ name: "dashboard" });
+            } else {
+                this.$router.push({
+                    name: "auth",
+                    params: { authname: "login" },
+                });
+            }
+        },
+    },
+};
+</script>

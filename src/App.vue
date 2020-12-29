@@ -1,44 +1,80 @@
 <template>
     <v-app>
-        <!-- Main Pgae -->
-        <v-main v-if="!NotMainPage && $store.state.authorized === true">
+        <!-- Main -->
+        <v-main v-if="!brokenUrl && $store.state.authorized">
             <Navigation />
             <v-container fluid>
                 <router-view></router-view>
             </v-container>
         </v-main>
 
-        <!-- Unauthorized access -->
-        <v-main
-            v-else-if="!NotMainPage && $store.state.authorized === false"
-            class="grad"
-        >
-            <Unauthorized />
-        </v-main>
-
-        <!-- Any broken url view -->
-        <v-main v-else class="grad">
+        <!-- Auth -->
+        <v-main v-else-if="!brokenUrl && !$store.state.authorized && isAuth" class="grad">
             <router-view></router-view>
         </v-main>
+
+        <!-- Unauthorized or Broken -->
+        <v-main
+            v-else
+            class="grad"
+        >
+            <ErrorPage />
+        </v-main>
+
+
     </v-app>
 </template>
 
 <script>
+import _404 from './views/errors/_404';
 import Navigation from "@/components/Fragments/Navigation";
-import Unauthorized from "@/views/errors/Unauthorized";
 
 export default {
     name: "App",
 
     components: {
         Navigation,
-        Unauthorized,
+        ErrorPage:_404,
+    },
+
+    created() {
+        if (this.$cookies.get("_refreshToken")) {
+            this.$store.state.authorized = true;
+        }
+
+        console.log(!this.$store.state.authorized)
     },
 
     computed: {
-        NotMainPage() {
-            return this.$route.name === "auth" || this.$route.name === "404";
+        brokenUrl() {
+            let l = this.$router.resolve({ name: this.$route.name });
+            return l.location.name === "404";
         },
+
+        isAuth() {
+            return this.$route.name === 'auth';
+        }
     },
 };
 </script>
+
+
+<!--
+        <v-main v-if="!brokenUrl && $store.state.authorized">
+            <Navigation />
+            <v-container fluid>
+                <router-view></router-view>
+            </v-container>
+        </v-main>
+
+        <v-main v-if="!brokenUrl && !$store.state.authorized" class="grad">
+            <router-view></router-view>
+        </v-main>
+
+        <v-main
+            v-if="brokenUrl"
+            class="grad"
+        >
+            <ErrorPage />
+        </v-main>
+-->

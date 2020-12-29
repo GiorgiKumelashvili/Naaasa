@@ -16,6 +16,10 @@ const routes = [
         component: Auth
     },
     {
+        path: '/account',
+        name: 'account',
+    },
+    {
         path: '/dashboard',
         name: 'dashboard',
         component: Home
