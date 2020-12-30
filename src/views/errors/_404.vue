@@ -23,13 +23,15 @@ export default {
         goBack: function () {
             if (this.$store.state.authorized) {
                 this.$router.push({ name: "dashboard" });
-            } else {
+            }
+            else {
                 this.$router.push({
                     name: "auth",
                     params: { authname: "login" },
                 });
             }
-        },
-    },
+        }
+        // [End] goBack
+    }
 };
 </script>

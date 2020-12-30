@@ -1,8 +1,6 @@
 <template>
     <div>
-        <Authorization
-            v-if="routeName === 'login' || routeName === 'register'"
-        />
+        <Authorization v-if="routeName === 'login' || routeName === 'register'"/>
         <ErrorPage v-else />
     </div>
 </template>
@@ -12,22 +10,19 @@
  * !Routes
  * [ login, register ]
  */
-import Authorization from "../components/auth/Authorization";
-import _404 from "./errors/_404";
+import Authorization from "@/components/auth/Authorization";
+import _404 from "@/views/errors/_404";
 
 export default {
     components: {
         ErrorPage: _404,
-        Authorization,
+        Authorization
     },
 
     computed: {
         routeName() {
             return this.$route.params.authname;
-        },
-    },
+        }
+    }
 };
 </script>
-
-<style>
-</style>

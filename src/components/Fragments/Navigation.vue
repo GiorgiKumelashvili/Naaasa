@@ -25,6 +25,7 @@
             <v-list dense>
                 <!-- Routes (Links) -->
                 <template v-for="item in items">
+                    <!-- Routes without child -->
                     <router-link
                         tag="div"
                         class="d-flex"
@@ -42,6 +43,7 @@
                         </v-list-item>
                     </router-link>
 
+                    <!-- Routes with childs -->
                     <v-list-group
                         v-else
                         color="secondary"
@@ -75,7 +77,7 @@
                     </v-list-group>
                 </template>
 
-                <!-- Logout (not a link) -->
+                <!-- Logout (not a link but a modal) -->
                 <v-dialog
                     v-model="logoutModelToggle"
                     persistent
@@ -130,7 +132,7 @@
             />
 
             <!-- Title -->
-            <v-toolbar-title>Food Heaven {{ activeSize }}</v-toolbar-title>
+            <v-toolbar-title>Food Heaven</v-toolbar-title>
 
             <v-spacer />
 
@@ -152,28 +154,29 @@
                         <v-list>
                             <v-list-item>
                                 <v-list-item-avatar color="black">
-                                    <v-icon dark
-                                        >mdi-account-cog-outline</v-icon
-                                    >
+                                    <v-icon
+                                        dark
+                                        v-text="'mdi-account-cog-outline'"
+                                    />
                                 </v-list-item-avatar>
 
                                 <v-list-item-content>
                                     <v-list-item-title
-                                        >Configuration</v-list-item-title
-                                    >
-                                    <v-list-item-subtitle
-                                        >Mini version</v-list-item-subtitle
-                                    >
+                                        v-text="'Configuration'"
+                                    />
+                                    <v-list-item-title
+                                        v-text="'Mini version'"
+                                    />
                                 </v-list-item-content>
 
                                 <v-list-item-action>
-                                    <v-icon
-                                        v-text="
+                                    <v-icon>
+                                        {{
                                             darkMode.enabled
-                                                ? darkIcon
-                                                : lightIcon
-                                        "
-                                    />
+                                                ? darkMode.darkIcon
+                                                : darkMode.lightIcon
+                                        }}
+                                    </v-icon>
                                 </v-list-item-action>
                             </v-list-item>
                         </v-list>
@@ -202,17 +205,18 @@
 
 <script>
 import Vue from "vue";
-import Back from "../../global/Back";
+import Back from "@/global/Back";
 
 export default {
     data: () => ({
         // Mini config section
         menu: false,
-        darkIcon: "mdi-sunglasses",
-        lightIcon: "mdi-white-balance-sunny",
+
         darkMode: {
             enabled: null,
             text: "Dark Mode",
+            darkIcon: "mdi-sunglasses",
+            lightIcon: "mdi-white-balance-sunny",
         },
 
         // Sidebar section
@@ -286,23 +290,26 @@ export default {
 
     methods: {
         toggleDarkMode: function () {
-            this.$store.state.darkModeEnabled = !this.$store.state
-                .darkModeEnabled;
+            this.$store.state.darkModeEnabled = !this.$store.state.darkModeEnabled;
+
             // Original toggling between dark mode
             this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
         },
+        // [End] toggleDarkMode
 
         logout: function () {
             Back.removeCookies();
             this.$store.state.authorized = false;
             this.$router.push({ name: "auth", params: { authname: "login" } });
         }
+        // [End] logout
     },
 
     computed: {
         moreThanMedium: function () {
             return this.activeSize === "lg" || this.activeSize === "xl";
         },
+
         isOrLessThanMedium: function () {
             return this.activeSize !== "lg" && this.activeSize !== "xl";
         },
@@ -310,22 +317,21 @@ export default {
 
     watch: {
         "darkMode.enabled": {
-            handler: function () {
+            handler() {
                 this.toggleDarkMode();
-            },
+            }
         },
         "$vuetify.breakpoint.name": {
-            handler: function () {
+            handler() {
                 Vue.set(this, "activeSize", this.$vuetify.breakpoint.name);
                 const { name: screenSize } = this.$vuetify.breakpoint;
-                this.drawer =
-                    screenSize === "lg" || screenSize === "xl" ? true : false;
+                this.drawer = screenSize === "lg" || screenSize === "xl" ? true : false;
 
                 if (this.isOrLessThanMedium) this.mini = false;
             },
             deep: true,
             immediate: true,
-        },
+        }
     },
 };
 </script>

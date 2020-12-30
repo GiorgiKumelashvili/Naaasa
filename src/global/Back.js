@@ -2,10 +2,10 @@ import Vue from 'vue';
 import axios from 'axios';
 import Config from './Config';
 
-const { texts, cookies } = Config;
 
 // Base configs
-const BASE_BACK_URL = process.env.VUE_APP_BACK_BASE_API_URL.toString();
+const { texts, cookies } = Config;
+const BASE_BACK_API_URL = `${process.env.VUE_APP_BACK_BASE_URL}api`;
 const BASE_URL = process.env.VUE_APP_FRONT_BASE_URL.toString();
 
 class Back {
@@ -37,7 +37,7 @@ class Back {
         // Return new Promise
         return axios({
             method: 'post',
-            url: `${BASE_BACK_URL}/${methodNum}`,
+            url: `${BASE_BACK_API_URL}/${methodNum}`,
             headers,
             data: JSON.stringify(data)
         })
@@ -63,7 +63,7 @@ class Back {
         // Return new Promise
         return axios({
             method: 'post',
-            url: `${BASE_BACK_URL}/${url}`,
+            url: `${BASE_BACK_API_URL}/${url}`,
             data: JSON.stringify(obj)
         })
             .then(response => response.data);
@@ -81,7 +81,7 @@ class Back {
 
         axios({
             method: 'post',
-            url: `${BASE_BACK_URL}/refreshtoken`,
+            url: `${BASE_BACK_API_URL}/refreshtoken`,
             data: JSON.stringify(data),
             headers
         })

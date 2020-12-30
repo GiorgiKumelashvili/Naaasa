@@ -49,13 +49,6 @@
                     hint="At least 8 characters"
                     @click:append="showPswd = !showPswd"
                 />
-
-                <v-container
-                    v-if="$route.params.authname === 'login'"
-                    fluid
-                    class="pa-0 d-flex justify-end blue--text text--accent-2 pointer"
-                    v-text="'Forgot password ?'"
-                />
             </v-form>
 
             <!-- Button -->
@@ -98,17 +91,11 @@
 
             <v-card-text class="d-flex flex-column pt-0">
                 <div class="subtitle-1 align-self-center">
-                    {{ routeName === "Login" ? "Need" : "Already have" }} an
-                    account ?
+                    {{ routeName === "Login" ? "Need" : "Already have" }} an account ?
                     <router-link
                         :to="{
                             name: 'auth',
-                            params: {
-                                authname:
-                                    routeName === 'Login'
-                                        ? 'register'
-                                        : 'login',
-                            },
+                            params: {authname:routeName === 'Login' ? 'register' : 'login'},
                         }"
                         class="text-decoration-none blue--text text--accent-2 pointer"
                         v-text="routeName === 'Login' ? 'Sign up' : 'Log in'"
@@ -122,13 +109,14 @@
 <script>
 import Axios from "axios";
 import Vue from "vue";
-import Back from "../../global/Back";
+import Back from "@/global/Back";
 
 export default {
     data: () => ({
         valid: true,
         showPswd: false,
         loading: false,
+        response: null,
 
         userCredentials: {
             username: "",
@@ -139,36 +127,27 @@ export default {
         InputRules: {
             usernameRules: [
                 (v) => !!v || "Username is required",
-                (v) =>
-                    (v && v.length >= 5 && v.length <= 30) ||
-                    "Username must be between 5 and 25 characters",
-                (v) => /^[a-zA-Z0-9]+$/.test(v) || "Username must be valid",
+                (v) => (v && v.length >= 5 && v.length <= 30) || "Username must be between 5 and 25 characters",
+                (v) => /^[a-zA-Z0-9]+$/.test(v) || "Username must be valid"
             ],
 
             emailRules: [
                 (v) => !!v || "Email is required",
-                (v) =>
-                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-                        v
-                    ) || "Email must be valid",
+                (v) => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || "Email must be valid"
             ],
 
             passwordRules: [
                 (v) => !!v || "Password is required",
                 (v) => v.length >= 8 || "Min 8 characters",
                 (v) => v.length <= 30 || "Max 30 characters",
-                (v) =>
-                    /.*[0-9]/.test(v) ||
-                    "Password must contain at least 1 numeric character",
-            ],
-        },
-
-        response: null,
+                (v) => /.*[0-9]/.test(v) || "Password must contain at least 1 numeric character"
+            ]
+        }
     }),
 
     created() {
         if (this.$store.state.authorized) {
-            this.$router.push({ name: "404" });
+            this.$router.push({ name: "dashboard" });
         }
     },
 
@@ -230,21 +209,24 @@ export default {
 
     computed: {
         routeName() {
-            let name = this.$route.params.authname;
-            return name.replace(/^./, name[0].toUpperCase());
+            if (this.$route.params.authname) {
+                let name = this.$route.params.authname;
+                return name.replace(/^./, name[0].toUpperCase());
+            }
         },
 
         isMobile() {
             return this.$vuetify.breakpoint.smAndDown;
-        },
+        }
     },
 };
-</script>
 
-
-
-<!-- how to authorize on back
-    {
+/**
+ * @description how to authorize on back
+ *
+ * Send this object:
+ *
+ *  {
         "type": "register",
         "data": {
             "username": "luka",
@@ -259,4 +241,5 @@ export default {
             "password": "luk32"
         }
     }
--->
+ */
+</script>

@@ -38,17 +38,12 @@ new Vue({
     ]
 
     //! Need completion
-
-
     !) need to add avatar logo and some other stuff
-    !) Remove cookie on logout
     !) Forgot Password
-    !) When form is filled on register and before pushing
-    register you go to login email and password is still on
-    probably better to let it be
 
 
-    //? Successful ones
+    //* Successful ones
+    +) Remove cookie on logout
     +) Authorization
     +) Rember me in background
     +) logout

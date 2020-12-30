@@ -9,24 +9,22 @@
         </v-main>
 
         <!-- Auth -->
-        <v-main v-else-if="!brokenUrl && !$store.state.authorized && isAuth" class="grad">
+        <v-main
+            v-else-if="!brokenUrl && !$store.state.authorized && isAuth"
+            class="grad"
+        >
             <router-view></router-view>
         </v-main>
 
         <!-- Unauthorized or Broken -->
-        <v-main
-            v-else
-            class="grad"
-        >
+        <v-main v-else class="grad">
             <ErrorPage />
         </v-main>
-
-
     </v-app>
 </template>
 
 <script>
-import _404 from './views/errors/_404';
+import _404 from "@/views/errors/_404";
 import Navigation from "@/components/Fragments/Navigation";
 
 export default {
@@ -34,7 +32,7 @@ export default {
 
     components: {
         Navigation,
-        ErrorPage:_404,
+        ErrorPage: _404,
     },
 
     created() {
@@ -42,7 +40,9 @@ export default {
             this.$store.state.authorized = true;
         }
 
-        console.log(!this.$store.state.authorized)
+        if (this.$route.name !== "auth" && !this.$store.state.authorized) {
+            this.$router.push({ name: "auth", params: { authname: "login" } });
+        }
     },
 
     computed: {
@@ -52,29 +52,8 @@ export default {
         },
 
         isAuth() {
-            return this.$route.name === 'auth';
+            return this.$route.name === "auth";
         }
-    },
+    }
 };
 </script>
-
-
-<!--
-        <v-main v-if="!brokenUrl && $store.state.authorized">
-            <Navigation />
-            <v-container fluid>
-                <router-view></router-view>
-            </v-container>
-        </v-main>
-
-        <v-main v-if="!brokenUrl && !$store.state.authorized" class="grad">
-            <router-view></router-view>
-        </v-main>
-
-        <v-main
-            v-if="brokenUrl"
-            class="grad"
-        >
-            <ErrorPage />
-        </v-main>
--->
