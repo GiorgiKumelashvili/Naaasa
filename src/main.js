@@ -7,8 +7,8 @@ import VueCookies from 'vue-cookies';
 
 //globals
 import '@/assets/css/global.css';
-import '@/global/protos/ArrayProto';
-import '@/global/protos/VueGlobal';
+import '@/libs/protos/ArrayProto';
+import '@/libs/protos/VueGlobal';
 
 // Cookies
 Vue.use(VueCookies);

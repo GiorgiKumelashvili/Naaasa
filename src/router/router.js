@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '@/views/main/Home';
 import _404 from "@/views/errors/_404";
+import Dashboard from '@/views/main/Dashboard';
 import Auth from '@/views/Auth';
 
 // Lazy Loading
@@ -21,7 +21,8 @@ const routes = [
     },
     {
         path: '/dashboard',
-        name: 'dashboard'
+        name: 'dashboard',
+        component: Dashboard
     },
     {
         path: '/about',

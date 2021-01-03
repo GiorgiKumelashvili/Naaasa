@@ -109,7 +109,7 @@
 <script>
 import Axios from "axios";
 import Vue from "vue";
-import Back from "@/global/Back";
+import Back from "@/libs/Back";
 
 export default {
     data: () => ({

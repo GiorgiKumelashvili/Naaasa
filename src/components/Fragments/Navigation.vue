@@ -132,7 +132,7 @@
             />
 
             <!-- Title -->
-            <v-toolbar-title>Food Heaven</v-toolbar-title>
+            <v-toolbar-title>{{title}}</v-toolbar-title>
 
             <v-spacer />
 
@@ -205,10 +205,12 @@
 
 <script>
 import Vue from "vue";
-import Back from "@/global/Back";
+import Back from "@/libs/Back";
 
 export default {
     data: () => ({
+        title: 'Music Store',
+
         // Mini config section
         menu: false,
 
