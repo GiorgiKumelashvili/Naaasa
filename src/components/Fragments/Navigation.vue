@@ -4,17 +4,15 @@
             v-model="drawer"
             :mini-variant.sync="mini"
             app
-            width="200"
+            width="180"
         >
             <!-- Sidebar Header -->
             <v-list-item class="pt-4">
-                <v-list-item-content>
+                <v-list-item-content class="d-flex">
                     <v-list-item-title class="title" v-text="title" />
                 </v-list-item-content>
 
-                <v-list-item-avatar>
-                    <v-icon>mdi-music-circle</v-icon>
-                </v-list-item-avatar>
+                <v-icon>mdi-music-circle</v-icon>
             </v-list-item>
 
             <!-- Main Sidebar Links -->
@@ -23,16 +21,8 @@
                     <!-- text-center -->
                     <v-list-item-title
                         :key="key"
-                        class="
-                            pa-5
-                            text-display
-                            grey--text
-                            lighten-2--text
-                            text-uppercase
-                            font-weight-bold
-                        "
+                        class="pa-5 text-display grey--text lighten-2--text text-uppercase font-weight-bold"
                     >
-                        <!-- purple -->
                         {{ key }}
                     </v-list-item-title>
 
@@ -44,8 +34,11 @@
                             :key="item.title + key"
                         >
                             <v-list-item link>
-                                <v-list-item-icon>
-                                    <v-icon v-text="item.icon" />
+                                <v-list-item-icon class="mr-5">
+                                    <v-icon
+                                        v-text="item.icon"
+                                        class="icon-size"
+                                    />
                                 </v-list-item-icon>
                                 <v-list-item-title v-text="item.title" />
                             </v-list-item>
@@ -56,16 +49,17 @@
         </v-navigation-drawer>
 
         <v-app-bar app dense>
-            <v-btn v-show="moreThanMedium" @click.stop="mini = !mini" icon>
+            <!-- v-show="moreThanMedium" -->
+            <v-btn
+                @click.stop="
+                    mini = !mini;
+                    toggle();
+                "
+                icon
+                :class="{ flipped: mini }"
+            >
                 <v-icon>mdi-chevron-left</v-icon>
             </v-btn>
-
-            <!-- Icon after screen under lg -->
-            <v-app-bar-nav-icon
-                v-show="isOrLessThanMedium"
-                @click.stop="drawer = !drawer"
-                color="purple darken-2"
-            />
 
             <!-- <div class="d-flex">
                 <v-list-item class="pointer">Music</v-list-item>
@@ -78,9 +72,19 @@
 
             <div class="d-flex align-center">
                 <v-list-item>
-                    <v-btn @click.stop="mini = !mini" icon>
-                        <v-icon>mdi-bell-outline</v-icon>
-                    </v-btn>
+                    <v-badge
+                        bordered
+                        left
+                        top
+                        color="deep-purple accent-4"
+                        dot
+                        offset-x="20"
+                        offset-y="20"
+                    >
+                        <v-btn @click.stop="mini = !mini" icon>
+                            <v-icon>mdi-bell-outline</v-icon>
+                        </v-btn>
+                    </v-badge>
 
                     <v-btn @click.stop="mini = !mini" icon>
                         <v-icon>mdi-cog-outline</v-icon>
@@ -264,46 +268,46 @@ export default {
                 },
                 {
                     title: "Artists",
-                    icon: "mdi-account-multiple",
+                    icon: "mdi-microphone",
                     path: "/artists"
                 },
                 {
                     title: "Radio",
-                    icon: "mdi-account-multiple",
+                    icon: "mdi-waves",
                     path: "/radio"
                 }
             ],
             library: [
                 {
                     title: "Recent",
-                    icon: "mdi-file-outline",
+                    icon: "mdi-restart",
                     path: "/library/recent"
                 },
                 {
                     title: "Albums",
-                    icon: "mdi-file-outline",
+                    icon: "mdi-music",
                     path: "/library/albums"
                 },
                 {
                     title: "Favourites",
-                    icon: "mdi-file-outline",
+                    icon: "mdi-heart-outline",
                     path: "/library/favourites"
                 }
             ],
             playlist: [
                 {
                     title: "Create New",
-                    icon: "mdi-plus-outline",
+                    icon: "mdi-plus-box-outline",
                     path: "/playlist/createnew"
                 },
                 {
                     title: "Design Flow",
-                    icon: "mdi-file-outline",
+                    icon: "mdi-shopping-music",
                     path: "/playlist/designflow"
                 },
                 {
                     title: "Best of 2021",
-                    icon: "mdi-file-outline",
+                    icon: "mdi-google-earth",
                     path: "/playlist/bestofcurrentyear"
                 }
             ]
@@ -324,8 +328,17 @@ export default {
             Back.removeCookies();
             this.$store.state.authorized = false;
             this.$router.push({ name: "auth", params: { authname: "login" } });
-        }
+        },
         // [End] logout
+        toggle: function() {
+            let isOrLessThanMedium =
+                this.activeSize !== "lg" && this.activeSize !== "xl";
+
+            if (isOrLessThanMedium) {
+                this.mini = false;
+                this.drawer = !this.drawer;
+            }
+        }
     },
 
     computed: {
@@ -359,3 +372,12 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+.flipped {
+    transform: rotate(180deg);
+}
+.icon-size {
+    font-size: 20px;
+}
+</style>
