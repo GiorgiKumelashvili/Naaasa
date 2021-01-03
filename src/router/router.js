@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import _404 from "@/views/errors/_404";
-import Dashboard from '@/views/main/Dashboard';
+import Explore from '@/views/main/Explore';
 import Auth from '@/views/Auth';
 
 // Lazy Loading
@@ -20,9 +20,9 @@ const routes = [
         name: 'account',
     },
     {
-        path: '/dashboard',
-        name: 'dashboard',
-        component: Dashboard
+        path: '/explore',
+        name: 'explore',
+        component: Explore
     },
     {
         path: '/about',

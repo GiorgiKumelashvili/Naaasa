@@ -91,11 +91,15 @@
 
             <v-card-text class="d-flex flex-column pt-0">
                 <div class="subtitle-1 align-self-center">
-                    {{ routeName === "Login" ? "Need" : "Already have" }} an account ?
+                    {{ routeName === "Login" ? "Need" : "Already have" }} an
+                    account ?
                     <router-link
                         :to="{
                             name: 'auth',
-                            params: {authname:routeName === 'Login' ? 'register' : 'login'},
+                            params: {
+                                authname:
+                                    routeName === 'Login' ? 'register' : 'login'
+                            }
                         }"
                         class="text-decoration-none blue--text text--accent-2 pointer"
                         v-text="routeName === 'Login' ? 'Sign up' : 'Log in'"
@@ -121,38 +125,45 @@ export default {
         userCredentials: {
             username: "",
             email: "",
-            password: "",
+            password: ""
         },
 
         InputRules: {
             usernameRules: [
-                (v) => !!v || "Username is required",
-                (v) => (v && v.length >= 5 && v.length <= 30) || "Username must be between 5 and 25 characters",
-                (v) => /^[a-zA-Z0-9]+$/.test(v) || "Username must be valid"
+                v => !!v || "Username is required",
+                v =>
+                    (v && v.length >= 5 && v.length <= 30) ||
+                    "Username must be between 5 and 25 characters",
+                v => /^[a-zA-Z0-9]+$/.test(v) || "Username must be valid"
             ],
 
             emailRules: [
-                (v) => !!v || "Email is required",
-                (v) => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || "Email must be valid"
+                v => !!v || "Email is required",
+                v =>
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+                        v
+                    ) || "Email must be valid"
             ],
 
             passwordRules: [
-                (v) => !!v || "Password is required",
-                (v) => v.length >= 8 || "Min 8 characters",
-                (v) => v.length <= 30 || "Max 30 characters",
-                (v) => /.*[0-9]/.test(v) || "Password must contain at least 1 numeric character"
+                v => !!v || "Password is required",
+                v => v.length >= 8 || "Min 8 characters",
+                v => v.length <= 30 || "Max 30 characters",
+                v =>
+                    /.*[0-9]/.test(v) ||
+                    "Password must contain at least 1 numeric character"
             ]
         }
     }),
 
     created() {
         if (this.$store.state.authorized) {
-            this.$router.push({ name: "dashboard" });
+            this.$router.push({ name: "explore" });
         }
     },
 
     methods: {
-        Authorize: async function () {
+        Authorize: async function() {
             // First validate form
             if (!this.$refs.form.validate()) {
                 console.log("Error :( ");
@@ -173,7 +184,7 @@ export default {
             // Get response from server
             let response = await Back.Auth("auth", {
                 type: this.routeName.toLowerCase(),
-                data: FinalUserCredentials,
+                data: FinalUserCredentials
             });
 
             // Set response
@@ -188,7 +199,7 @@ export default {
                 this.setCookies(response);
 
                 // redirection
-                this.$router.push({ name: "dashboard" });
+                this.$router.push({ name: "explore" });
             }
 
             // Remove loading
@@ -197,13 +208,13 @@ export default {
         },
         // [End] Authorize
 
-        setCookies: function (response) {
+        setCookies: function(response) {
             let { identifier, accessToken, refreshToken } = response.data;
 
             this.$cookies.set("_identifier", identifier);
             this.$cookies.set("_accessToken", accessToken);
             this.$cookies.set("_refreshToken", refreshToken);
-        },
+        }
         // [End] setCookies
     },
 
@@ -218,7 +229,7 @@ export default {
         isMobile() {
             return this.$vuetify.breakpoint.smAndDown;
         }
-    },
+    }
 };
 
 /**

@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>Home</h1>
-        <v-btn @click="temp">log temp</v-btn>
+        <!-- <v-btn @click="temp">log temp</v-btn>
         <v-btn>
             <router-link
                 :to="{
@@ -12,12 +12,12 @@
             >
                 go to about /123
             </router-link>
-        </v-btn>
+        </v-btn> -->
     </div>
 </template>
 
 <script>
-import Back from '@/libs/Back';
+import Back from "@/libs/Back";
 
 export default {
     name: "Home",
@@ -27,7 +27,7 @@ export default {
     }),
 
     methods: {
-        temp: async function () {
+        temp: async function() {
             let d = await Back.Service(1);
             console.log(d);
         }

@@ -20,14 +20,13 @@
 <script>
 export default {
     methods: {
-        goBack: function () {
+        goBack: function() {
             if (this.$store.state.authorized) {
-                this.$router.push({ name: "dashboard" });
-            }
-            else {
+                this.$router.push({ name: "explore" });
+            } else {
                 this.$router.push({
                     name: "auth",
-                    params: { authname: "login" },
+                    params: { authname: "login" }
                 });
             }
         }
