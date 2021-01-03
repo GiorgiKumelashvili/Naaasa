@@ -3,6 +3,7 @@ import axios from 'axios';
 import Config from './Config';
 
 
+console.log(process.env);
 // Base configs
 const { texts, cookies } = Config;
 const BASE_BACK_API_URL = `${process.env.VUE_APP_BACK_BASE_URL}api`;
