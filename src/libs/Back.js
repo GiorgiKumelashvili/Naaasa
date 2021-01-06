@@ -2,12 +2,8 @@ import Vue from 'vue';
 import axios from 'axios';
 import Config from './Config';
 
-
-console.log(process.env);
 // Base configs
-const { texts, cookies } = Config;
-const BASE_BACK_API_URL = `${process.env.VUE_APP_BACK_BASE_URL}api`;
-const BASE_URL = process.env.VUE_APP_FRONT_BASE_URL.toString();
+const { texts, cookies, urls } = Config;
 
 class Back {
     static async Service(methodNum, obj) {
@@ -38,7 +34,7 @@ class Back {
         // Return new Promise
         return axios({
             method: 'post',
-            url: `${BASE_BACK_API_URL}/${methodNum}`,
+            url: `${urls.BASE_BACK_API_URL}/${methodNum}`,
             headers,
             data: JSON.stringify(data)
         })
@@ -64,7 +60,7 @@ class Back {
         // Return new Promise
         return axios({
             method: 'post',
-            url: `${BASE_BACK_API_URL}/${url}`,
+            url: `${urls.BASE_BACK_API_URL}/${url}`,
             data: JSON.stringify(obj)
         })
             .then(response => response.data);
@@ -82,7 +78,7 @@ class Back {
 
         axios({
             method: 'post',
-            url: `${BASE_BACK_API_URL}/refreshtoken`,
+            url: `${urls.BASE_BACK_API_URL}/refreshtoken`,
             data: JSON.stringify(data),
             headers
         })
@@ -98,7 +94,7 @@ class Back {
                     Back.removeCookies();
 
                     // Redirect to login page
-                    window.location.href = `${BASE_URL}/auth/login`;
+                    window.location.href = `${urls.BASE_URL}/auth/login`;
 
                     return null;
                 }
@@ -117,7 +113,3 @@ class Back {
 }
 
 export default Back;
-
-
-// var audio = new window.AudioContext();
-// var oscialtor = audio.createOscillator();

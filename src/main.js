@@ -8,7 +8,7 @@ import VueCookies from 'vue-cookies';
 //globals
 import '@/assets/css/global.css';
 import '@/libs/protos/ArrayProto';
-import '@/libs/protos/VueGlobal';
+import '@/libs/VueGlobal';
 
 // Cookies
 Vue.use(VueCookies);
@@ -32,9 +32,10 @@ new Vue({
 
 /*TODO
     ** Icons: https://materialdesignicons.com/cdn/2.0.46/
+    ** music design: https://dribbble.com/shots/11139802-Dark-Mode-Music-Player-Web-App/attachments/2742740?mode=media
 
-    //! this
-    https://dribbble.com/shots/11139802-Dark-Mode-Music-Player-Web-App/attachments/2742740?mode=media
+    1) netlify shecvale site name mere shecvale env.production da push github
+    2) cors problema moagvare
 
     ** Dashboard: [
         https://vuse-dark-preview.hexesis.com/dashboard/operational (Better)

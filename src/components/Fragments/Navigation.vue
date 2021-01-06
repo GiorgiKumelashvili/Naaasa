@@ -230,8 +230,13 @@ import Vue from "vue";
 import Back from "@/libs/Back";
 
 export default {
+    async created() {
+        let x = await this.$nasa.hello();
+        console.log(x);
+    },
+
     data: () => ({
-        title: "Music Store",
+        title: "Nasa explore",
         username: "Giorga K",
 
         // Mini config section
@@ -267,8 +272,8 @@ export default {
                     path: "/albums"
                 },
                 {
-                    title: "Artists",
-                    icon: "mdi-microphone",
+                    title: "needs change ▼",
+                    icon: "",
                     path: "/artists"
                 },
                 {
