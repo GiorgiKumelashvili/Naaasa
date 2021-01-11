@@ -158,7 +158,7 @@ export default {
 
     created() {
         if (this.$store.state.authorized) {
-            this.$router.push({ name: "explore" });
+            this.$router.push({ name: "news" });
         }
     },
 
@@ -199,7 +199,7 @@ export default {
                 this.setCookies(response);
 
                 // redirection
-                this.$router.push({ name: "explore" });
+                this.$router.push({ name: "news" });
             }
 
             // Remove loading

@@ -25,19 +25,17 @@ new Vue({
 }).$mount('#app');
 
 /*
-    ! account
-    * giorgi@exam.com
-    * giorgi321jjhi9rio12
- */
+*/
 
 /*TODO
-    ** Icons: https://materialdesignicons.com/cdn/2.0.46/
-    ** music design: https://dribbble.com/shots/11139802-Dark-Mode-Music-Player-Web-App/attachments/2742740?mode=media
 
-    1) netlify shecvale site name mere shecvale env.production da push github
-    2) cors problema moagvare
+    ! account
+    E: giorgi@exam.com
+    P: giorgi321jjhi9rio12
+
 
     ** Dashboard: [
+        https://dribbble.com/shots/11139802-Dark-Mode-Music-Player-Web-App/attachments/2742740?mode=media
         https://vuse-dark-preview.hexesis.com/dashboard/operational (Better)
         https://vuse-dark-preview.hexesis.com/dashboard/analytical
     ]
@@ -48,8 +46,10 @@ new Vue({
 
 
     //* Successful ones
+    +) nasa key to env
     +) Remove cookie on logout
     +) Authorization
+    +) cors problem
     +) Rember me in background
     +) logout
     +) Add message for no login

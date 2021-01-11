@@ -16,6 +16,6 @@ export default {
     },
 
     keys: {
-        NASA_KEY: 'TJzb17YM9xAaJKJKFnJ5QPkbWUcmiShdaKVvcoXF'
+        NASA_KEY: process.env.VUE_APP_NASA_KEY
     }
 }

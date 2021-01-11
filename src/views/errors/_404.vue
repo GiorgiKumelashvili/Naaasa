@@ -22,7 +22,7 @@ export default {
     methods: {
         goBack: function() {
             if (this.$store.state.authorized) {
-                this.$router.push({ name: "explore" });
+                this.$router.push({ name: "news" });
             } else {
                 this.$router.push({
                     name: "auth",
