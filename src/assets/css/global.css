@@ -1,7 +1,19 @@
 .pointer {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .grad {
-    background-image: linear-gradient(rgb(124, 124, 255), purple) !important;
+	background-image: linear-gradient(rgb(124, 124, 255), purple) !important;
+}
+
+/* Add later */
+.min-20 {
+	min-height: 20%;
+}
+.max-60 {
+	max-height: 60%;
+}
+
+.test {
+	color: #dbdbdb4d;
 }
