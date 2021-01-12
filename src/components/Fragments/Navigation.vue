@@ -22,7 +22,12 @@
 					</v-list-item-title>
 
 					<template v-for="item in val">
-						<router-link tag="div" class="d-flex" :to="item.path" :key="item.title + key">
+						<router-link
+							tag="a"
+							class="d-flex text-decoration-none"
+							:to="item.path"
+							:key="item.title + key"
+						>
 							<v-list-item link>
 								<v-list-item-icon class="mr-5">
 									<v-icon v-text="item.icon" class="icon-size" />
@@ -79,7 +84,9 @@
 
 										<v-list-item-action>
 											<v-icon>
-												{{ darkMode.enabled ? darkMode.darkIcon : darkMode.lightIcon }}
+												{{
+													darkMode.enabled ? darkMode.darkIcon : darkMode.lightIcon
+												}}
 											</v-icon>
 										</v-list-item-action>
 									</v-list-item>

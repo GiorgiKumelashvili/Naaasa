@@ -23,32 +23,22 @@
 			/>
 		</div>
 		{{ searchQuery }}
-		{{ defaultFilter }}
 	</div>
 </template>
 
 <script>
 import FilterNasa from '@/components/Fragments/explore/FilterNasa'
-// query
-// page --> 1
+
 export default {
+	created() {
+		console.log('hi')
+	},
 	components: {
 		FilterNasa
 	},
 	data: () => ({
 		filterOpened: false,
-		searchQuery: '',
-
-		defaultFilter: {
-			mediaType: {
-				image: true,
-				video: false
-			},
-			yearInterval: {
-				start: 1920,
-				end: new Date().getFullYear()
-			}
-		}
+		searchQuery: ''
 	}),
 	methods: {
 		onPageClick: function() {

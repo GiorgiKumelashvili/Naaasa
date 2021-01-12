@@ -1,38 +1,36 @@
-import Vue from 'vue';
-import App from '@/App.vue';
-import router from '@/router/router';
-import store from '@/store/index';
-import vuetify from '@/plugins/vuetify';
-import VueCookies from 'vue-cookies';
+import Vue from 'vue'
+import App from '@/App.vue'
+import router from '@/router/router'
+import store from '@/store/index'
+import vuetify from '@/plugins/vuetify'
+import VueCookies from 'vue-cookies'
 
 //globals
-import '@/assets/css/global.css';
-import '@/libs/protos/ArrayProto';
-import '@/libs/VueGlobal';
+import '@/assets/css/global.css'
+import '@/libs/protos/ArrayProto'
+import '@/libs/VueGlobal'
 
 // Cookies
-Vue.use(VueCookies);
+Vue.use(VueCookies)
 
 // Vue Configs
-Vue.config.productionTip = false;
-Vue.$cookies.config('30d');
+Vue.config.productionTip = false
+Vue.$cookies.config('30d')
 
 new Vue({
-    router,
-    store,
-    vuetify,
-    render: h => h(App)
-}).$mount('#app');
-
-/*
-*/
+	router,
+	store,
+	vuetify,
+	render: h => h(App)
+}).$mount('#app')
 
 /*TODO
 
-    ! account
+    account
     E: giorgi@exam.com
     P: giorgi321jjhi9rio12
 
+    link for nasa img and viedo lib --> https://images.nasa.gov/
 
     ** Dashboard: [
         https://dribbble.com/shots/11139802-Dark-Mode-Music-Player-Web-App/attachments/2742740?mode=media
