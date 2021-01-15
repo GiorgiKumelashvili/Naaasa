@@ -32,12 +32,12 @@ export default {
 
     components: {
         Navigation,
-        ErrorPage: _404,
+        ErrorPage: _404
     },
 
     created() {
         if (this.$cookies.get("_refreshToken")) {
-            this.$store.state.authorized = true;
+            this.$store.commit("setAuthorized", true);
         }
 
         if (this.$route.name !== "auth" && !this.$store.state.authorized) {

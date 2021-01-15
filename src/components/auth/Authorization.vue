@@ -192,8 +192,7 @@ export default {
 
             // Check if authorization was success
             if (response.statuscode === 1) {
-                // Authorize
-                this.$store.state.authorized = true;
+                this.$store.commit("setAuthorized", true);
 
                 // Set cookie
                 this.setCookies(response);
