@@ -205,7 +205,7 @@ export default {
 			console.log(this.$refs[titleRef][0]);
 
 			//TODO gamoaswore error img
-			this.$refs[titleRef][0].src = require("@/assets/logo.png");
+			this.$refs[titleRef][0].src = require("@/assets/img/logo.png");
 		},
 		// [End] setErrorImage
 

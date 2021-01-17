@@ -1,27 +1,35 @@
 <template>
 	<div>
-		<!-- TODO vtt srt dasamatebelia daa loader icon mosdzrobi -->
+		<!-- TODO vtt srt dasamatebelia -->
 		<!-- <iframe
 			src="https://images-assets.nasa.gov/video/KSC-Orion-2018-GA_V_ESM_AT_O&C-0003/KSC-Orion-2018-GA_V_ESM_AT_O&C-0003~orig.mp4"
 			frameborder="0"
 			allowfullscreen
 		></iframe> -->
-
-		<v-card class="d-md-flex" elevation="20">
-			<!-- TODO needs some adjusting -->
-			<div class="d-flex flex-column">
-				<v-card-title>Nirgal Vallis</v-card-title>
-
-				<v-img
-					width="600"
-					height="700"
-					src="https://images-assets.nasa.gov/image/PIA24254/PIA24254~orig.jpg"
-					lazy-src="https://images-assets.nasa.gov/image/PIA24254/PIA24254~orig.jpg"
-				/>
-			</div>
+		<!-- elevation="20" -->
+		<v-card class="d-md-flex" elevation="0">
+			<!-- TODO needs some adjusting (add mobile src when mobile)-->
+			<!-- width="400"
+				height="500" -->
+			<v-img
+				max-width="400"
+				max-height="500"
+				src="https://images-assets.nasa.gov/image/PIA24254/PIA24254~orig.jpg"
+				lazy-src="https://images-assets.nasa.gov/image/PIA24254/PIA24254~orig.jpg"
+			/>
 
 			<div class="d-flex-flex-column">
+				<v-card-title class="text-h3 pb-5">Nirgal Vallis</v-card-title>
+
+				<v-spacer></v-spacer>
+
 				<v-card-subtitle class="d-flex flex-column">
+					<span class="font-weight-black text--primary">
+						NASA ID
+						<span class="font-weight-medium">
+							: KSC-20210102-PH-BOE01_0002
+						</span>
+					</span>
 					<span class="font-weight-black text--primary">
 						File size
 						<span class="font-weight-medium">
@@ -48,9 +56,14 @@
 					</span>
 				</v-card-subtitle>
 
-				<v-btn color="purple white--text">
-					Download <v-icon>mdi-download</v-icon>
-				</v-btn>
+				<h3
+					class="text-body-1 purple--text pointer d-inline pl-4"
+					@click="downloadImgVid()"
+				>
+					Download image
+					<v-icon color="purple">mdi-download</v-icon>
+					<!-- <v-btn color="purple" depressed icon> </v-btn> -->
+				</h3>
 
 				<v-card-subtitle class="text--primary">
 					Today's VIS image shows part of Ross Crater. Located in
@@ -105,6 +118,12 @@ export default {
 					sessionStorage.getItem(Config.sessions.detailedViewAccess)
 				)
 			);
+		}
+	},
+
+	methods: {
+		downloadImgVid: function() {
+			console.log("downloading");
 		}
 	}
 };
