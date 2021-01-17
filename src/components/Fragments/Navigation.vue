@@ -28,7 +28,10 @@
 			<v-list dense rounded>
 				<template v-for="(val, key) in sidebarLinks">
 					<!-- text-center -->
-					<v-list-item-title :key="key" class="pa-5">
+					<v-list-item-title
+						:key="key"
+						class="pa-5 text-uppercase font-weight-bold"
+					>
 						{{ key }}
 					</v-list-item-title>
 
@@ -300,10 +303,15 @@ export default {
 			]
 		}
 	}),
+	created() {
+		let bool = this.$store.getters.darkModeEnabled;
+		Vue.set(this.darkMode, "enabled", bool);
+		this.$vuetify.theme.dark = bool;
+	},
 
 	methods: {
 		toggleDarkMode: function() {
-			this.$store.commit("toggleDarkMode");
+			this.$store.dispatch("toggleDarkMode");
 
 			// Original toggling between dark mode
 			this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
@@ -317,7 +325,7 @@ export default {
 
 		logout: function() {
 			Back.removeCookies();
-			this.$store.commit("setAuthorized", false);
+			this.$store.dispatch("setAuthorized", false);
 			this.$router.push({ name: "auth", params: { authname: "login" } });
 		}
 		// [End] logout

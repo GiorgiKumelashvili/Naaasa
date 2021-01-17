@@ -184,6 +184,10 @@ export default {
 		FilterNasa
 	},
 
+	created() {
+		this.createdSearchNasaLib();
+	},
+
 	data: () => ({
 		filterOpened: false,
 		searchQuery: "",
@@ -202,7 +206,7 @@ export default {
 	}),
 	methods: {
 		setErrorImage: function(titleRef) {
-			console.log(this.$refs[titleRef][0]);
+			// console.log(this.$refs[titleRef][0]);
 
 			//TODO gamoaswore error img
 			this.$refs[titleRef][0].src = require("@/assets/img/logo.png");
@@ -222,6 +226,9 @@ export default {
 			// add query to object
 			this.conf = { ...this.conf, query: this.searchQuery };
 
+			// save configuration in $store
+			this.$store.dispatch("setRequestedConfiguration", this.conf);
+
 			// get response from $nasa
 			let data = await this.$nasa.img_video_lib(this.conf);
 
@@ -237,16 +244,34 @@ export default {
 		},
 		// [End] searchNasaLib
 
+		createdSearchNasaLib: async function() {
+			if (this.$store.getters.requestedConf) {
+				this.loading = true;
+
+				this.conf = Object.assign(
+					{},
+					this.$store.getters.requestedConf
+				);
+
+				// get response from $nasa
+				let data = await this.$nasa.img_video_lib(this.conf);
+
+				if (data) {
+					this.proccessApiData(data);
+				}
+
+				this.loading = false;
+			}
+		},
+
 		proccessApiData: function(data) {
-			// img --> data[0] and href --> inside --> /metadata
-			// vid --> data[0] and href -->
+			/**
+			 * img --> data[0] and href --> inside --> /metadata
+			 * vid --> data[0] and href -->
+			 */
 
 			Vue.set(this, "response", data);
-			console.log([...data]);
-
-			// data.forEach(element => {
-			//     console.log({ ...element });
-			// });
+			// console.log([...data]);
 		},
 
 		transport: function(obj) {

@@ -40,6 +40,7 @@ Vue.prototype.$nasa = {
 		let year_e = `&year_end=${
 			year_end ? year_end : new Date().getFullYear()
 		}`;
+
 		let requestText = `${BASE}?q=${final_query}${media}${page}${year_s}${year_e}`;
 
 		console.log(requestText);
@@ -73,5 +74,6 @@ async function axiosGet(url) {
 		return await axios.get(url);
 	} catch (error) {
 		console.error(`[GIO] => [\n\t${error}\n]`);
+		return "error";
 	}
 }
