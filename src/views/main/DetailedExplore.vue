@@ -275,12 +275,17 @@ export default {
 	}),
 
 	created() {
-		this.setDetailedData();
+		let detailed = this.setDetailedData();
 
-		if (this.detailed && this.detailed.data[0].media_type === "image") {
-			this.getMetaData();
-		} else {
+		if (detailed && detailed.data[0].media_type === "image") {
+			this.getMetaImageData();
 		}
+
+		if (detailed && detailed.data[0].media_type === "video") {
+			this.getMetaVideoData();
+		}
+
+		// console.log({ ...this.detailed });
 	},
 
 	methods: {
@@ -296,16 +301,15 @@ export default {
 				Object.values(detailedData).length === 0 &&
 				sessionStorage.getItem(Config.sessions.detailedViewAccess)
 			) {
-				Vue.set(
-					this,
-					"detailed",
-					JSON.parse(
-						sessionStorage.getItem(
-							Config.sessions.detailedViewAccess
-						)
-					)
+				let data = JSON.parse(
+					sessionStorage.getItem(Config.sessions.detailedViewAccess)
 				);
+
+				Vue.set(this, "detailed", data);
+				return data;
 			}
+
+			return null;
 		},
 
 		getMetaDataLink: function() {
@@ -315,12 +319,21 @@ export default {
 					url: this.detailed.href
 				})
 					.catch(err => console.log(err))
-					.then(res => res.data[res.data.length - 1])
+					.then(res => {
+						//TODO ess damushave src amoige metadata mzada prosta gadaitane
+						console.log(res.data);
+						let result = res.data.filter(str =>
+							str.includes("metadata.json")
+						);
+
+						return result[0];
+					})
 					.then(data => data);
 			}
 		},
 
-		getMetaData: async function() {
+		/** @field Image */
+		getMetaImageData: async function() {
 			let metaLink = await this.getMetaDataLink();
 
 			axios({
@@ -333,7 +346,6 @@ export default {
 					this.MetaData.fileSize = data["File:FileSize"];
 					this.MetaData.fileType = data["File:FileTypeExtension"];
 					this.MetaData.fileName = data["File:FileName"];
-					console.log(this.MetaData);
 				});
 		},
 
@@ -370,6 +382,24 @@ export default {
 					this.loadingDownload = false;
 					document.body.removeChild(link);
 				});
+		},
+
+		/** @field Video */
+		getMetaVideoData: async function() {
+			let metaLink = await this.getMetaDataLink();
+			// console.log(metaLink);
+			// axios({
+			// 	method: "GET",
+			// 	url: metaLink
+			// })
+			// 	.catch(err => console.log(err))
+			// 	.then(res => {
+			// 		let { data } = res;
+			// 		console.log(data);
+			// 		// this.MetaData.fileSize = data["File:FileSize"];
+			// 		// this.MetaData.fileType = data["File:FileTypeExtension"];
+			// 		// this.MetaData.fileName = data["File:FileName"];
+			// 	});
 		}
 	}
 };
