@@ -398,7 +398,7 @@ export default {
 			// 		console.log(data);
 			// 		// this.MetaData.fileSize = data["File:FileSize"];
 			// 		// this.MetaData.fileType = data["File:FileTypeExtension"];
-			// 		// this.MetaData.fileName = data["File:FileName"];
+			// 		// this.MetaData.fileName = data["File:FileName"];;
 			// 	});
 		}
 	}
