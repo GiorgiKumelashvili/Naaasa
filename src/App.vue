@@ -26,6 +26,7 @@
 <script>
 import _404 from "@/views/errors/_404";
 import Navigation from "@/components/Fragments/Navigation";
+import Back from "@/libs/Back";
 
 export default {
 	name: "App",
@@ -36,11 +37,34 @@ export default {
 	},
 
 	created() {
-		if (this.$cookies.get("_refreshToken")) {
-			this.$store.dispatch("setAuthorized", true);
-		}
+		this.RouteChecking();
+	},
 
-		if (this.$route.name !== "auth" && !this.$store.state.authorized) {
+	methods: {
+		RouteChecking: async function() {
+			await this.UserExists();
+
+			if (this.$route.name !== "auth" && !this.$store.state.authorized) {
+				this.$router.push({
+					name: "auth",
+					params: { authname: "login" }
+				});
+			}
+		},
+
+		UserExists: async function() {
+			if (this.$cookies.get("_refreshToken")) {
+				// check user existence by refresh token
+				// refresh token contains unique identifier of user
+				let { data } = await Back.Service(1, {
+					refreshToken: this.$cookies.get("_refreshToken")
+				});
+
+				this.$store.dispatch("setAuthorized", data["UserExists"]);
+			}
+		},
+
+		redirectUnauthorized: function() {
 			this.$router.push({ name: "auth", params: { authname: "login" } });
 		}
 	},

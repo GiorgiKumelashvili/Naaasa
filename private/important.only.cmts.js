@@ -16,7 +16,10 @@
     //! Need completion
     !) need to add avatar logo and some other stuff
 	!) Forgot Password
-	!) Explore, DetailedExplore needs mobile responsivnes and needs video mobile.mp4
+	!) Explore, DetailedExplore : [
+		needs mobile responsivnes and needs video mobile.mp4
+		Explore needs pagination
+	]
 
 
     //* Successful ones

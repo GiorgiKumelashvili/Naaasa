@@ -232,24 +232,22 @@ export default {
 };
 
 /**
- * @description how to authorize on back
- *
- * Send this object:
- *
+ * @example how to authorize on Back
+ -----------------------------------------
  *  {
-        "type": "register",
-        "data": {
-            "username": "luka",
-            "email": "luka@exam.com",
-            "password": "luk32"
-        }
-    },
-    {
-        "type": "login",
-        "data": {
-            "email": "luka@exam.com",
-            "password": "luk32"
-        }
-    }
+ *       "type": "register",
+ *       "data": {
+ *           "username": "luka",
+ *           "email": "luka@exam.com",
+ *           "password": "luk32"
+ *       }
+ *   },
+ *   {
+ *       "type": "login",
+ *       "data": {
+ *           "email": "luka@exam.com",
+ *           "password": "luk32"
+ *       }
+ *   }
  */
 </script>
