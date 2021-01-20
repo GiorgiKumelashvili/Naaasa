@@ -106,18 +106,18 @@
 					</span>
 					<span class="font-weight-black text--primary">
 						<span class="text-capitalize">
-							{{ detailed.data[0].media_type }} size
-
+							{{ detailed.data[0].media_type }} name
 							<span class="font-weight-medium">
-								: {{ MetaData.fileSize || "null" }}
+								: {{ MetaData.fileName || "null" }}
 							</span>
 						</span>
 					</span>
 					<span class="font-weight-black text--primary">
 						<span class="text-capitalize">
-							{{ detailed.data[0].media_type }} name
+							{{ detailed.data[0].media_type }} size
+
 							<span class="font-weight-medium">
-								: {{ MetaData.fileName || "null" }}
+								: {{ MetaData.fileSize || "null" }}
 							</span>
 						</span>
 					</span>
@@ -178,11 +178,16 @@
 			class="d-md-flex ma-md-5 rounded-0"
 			elevation="0"
 		>
-			<iframe
-				src="https://images-assets.nasa.gov/video/KSC-Orion-2018-GA_V_ESM_AT_O&C-0003/KSC-Orion-2018-GA_V_ESM_AT_O&C-0003~orig.mp4"
-				frameborder="0"
-				allowfullscreen
-			></iframe>
+			<video
+				v-if="videoLinks.length"
+				width="500"
+				height="500"
+				controls
+				disablepictureinpicture
+			>
+				<source :src="videoLink" type="video/mp4" />
+			</video>
+			<!-- src="https://images-assets.nasa.gov/video/KSC-Orion-2018-GA_V_ESM_AT_O&C-0003/KSC-Orion-2018-GA_V_ESM_AT_O&C-0003~orig.mp4" -->
 
 			<div class="d-flex-flex-column">
 				<v-card-title class="text-h4 pb-5">
@@ -197,6 +202,14 @@
 						NASA ID
 						<span class="font-weight-medium">
 							: {{ detailed.data[0].nasa_id }}
+						</span>
+					</span>
+					<span class="font-weight-black text--primary">
+						<span class="text-capitalize">
+							{{ detailed.data[0].media_type }} name
+							<span class="font-weight-medium">
+								: {{ MetaData.fileName || "null" }}
+							</span>
 						</span>
 					</span>
 					<span class="font-weight-black text--primary">
@@ -231,15 +244,6 @@
 					</span>
 				</v-card-subtitle>
 
-				<!-- Donwload link -->
-				<h3
-					class="text-body-1 purple--text pointer d-inline pl-4"
-					@click="downloadImg(detailed.links[0].href)"
-				>
-					Download image
-					<v-icon color="purple">mdi-download</v-icon>
-				</h3>
-
 				<!-- Image description -->
 				<v-card-subtitle
 					class="text--primary"
@@ -269,6 +273,7 @@ export default {
 			fileType: "",
 			fileName: ""
 		},
+		videoLinks: [],
 
 		loadingDownload: false,
 		errorOcurredOnImageDownload: false
@@ -284,8 +289,6 @@ export default {
 		if (detailed && detailed.data[0].media_type === "video") {
 			this.getMetaVideoData();
 		}
-
-		// console.log({ ...this.detailed });
 	},
 
 	methods: {
@@ -306,10 +309,9 @@ export default {
 				);
 
 				Vue.set(this, "detailed", data);
-				return data;
 			}
 
-			return null;
+			return this.detailed;
 		},
 
 		getMetaDataLink: function() {
@@ -320,8 +322,10 @@ export default {
 				})
 					.catch(err => console.log(err))
 					.then(res => {
-						//TODO ess damushave src amoige metadata mzada prosta gadaitane
-						console.log(res.data);
+						if (this.detailed.data[0].media_type === "video") {
+							Vue.set(this, "videoLinks", res.data.slice());
+						}
+
 						let result = res.data.filter(str =>
 							str.includes("metadata.json")
 						);
@@ -388,18 +392,30 @@ export default {
 		getMetaVideoData: async function() {
 			let metaLink = await this.getMetaDataLink();
 			// console.log(metaLink);
-			// axios({
-			// 	method: "GET",
-			// 	url: metaLink
-			// })
-			// 	.catch(err => console.log(err))
-			// 	.then(res => {
-			// 		let { data } = res;
-			// 		console.log(data);
-			// 		// this.MetaData.fileSize = data["File:FileSize"];
-			// 		// this.MetaData.fileType = data["File:FileTypeExtension"];
-			// 		// this.MetaData.fileName = data["File:FileName"];;
-			// 	});
+			axios({
+				method: "GET",
+				url: metaLink
+			})
+				.catch(err => console.log(err))
+				.then(res => {
+					let { data } = res;
+					// console.log(data);
+					this.MetaData.fileSize = data["File:FileSize"];
+					this.MetaData.fileType = data["File:FileTypeExtension"];
+					this.MetaData.fileName = data["File:FileName"];
+				});
+		}
+	},
+
+	computed: {
+		videoLink() {
+			let url = this.videoLinks.filter(str => str.includes("orig.mp4"));
+
+			if (url.length) {
+				url = url[0];
+			}
+
+			return url;
 		}
 	}
 };
